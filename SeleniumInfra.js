@@ -3,7 +3,6 @@ const path = require("chromedriver").path;
 const chrome = require("selenium-webdriver/chrome");
 let service = new chrome.ServiceBuilder(path).build();
 chrome.setDefaultService(service);
-
 class SeleniumInfra {
     constructor() {
         this.driver = new Builder().forBrowser("chrome").build();
@@ -28,10 +27,10 @@ class SeleniumInfra {
     }
     async clickButton(locatorType, locatorValue, element = null, fromElement = null) {
         try {
-            await this.driver.wait(
-                until.elementIsVisible(
-                    this.driver.findElement(By[locatorType](locatorValue))), 5000);
             if (!element) {
+                await this.driver.wait(
+                    until.elementIsVisible(
+                        this.driver.findElement(By[locatorType](locatorValue))), 5000)
                 if (fromElement) {
                     element = await fromElement.findElement(
                         By[locatorType](locatorValue)
@@ -41,6 +40,8 @@ class SeleniumInfra {
                         By[locatorType](locatorValue)
                     );
                 }
+            } else {
+                await this.driver.wait(until.elementIsVisible(element, 5000))
             }
             await element.click();
             console.log(
@@ -55,10 +56,10 @@ class SeleniumInfra {
     async write(locatorType, locatorValue, data, element = null, fromElement = null) {
         try {
             await this.driver.sleep(1000);
-            await this.driver.wait(
-                until.elementIsVisible(
-                    this.driver.findElement(By[locatorType](locatorValue))), 5000);
             if (!element) {
+                await this.driver.wait(
+                    until.elementIsVisible(
+                        this.driver.findElement(By[locatorType](locatorValue))), 5000);
                 if (fromElement) {
                     element = await fromElement.findElement(
                         By[locatorType](locatorValue)
@@ -68,6 +69,8 @@ class SeleniumInfra {
                         By[locatorType](locatorValue)
                     );
                 }
+            } else {
+                await this.driver.wait(until.elementIsVisible(element, 5000))
             }
             await element.sendKeys(data);
             console.log(
@@ -82,10 +85,10 @@ class SeleniumInfra {
     async getTextFromElement(locatorType, locatorValue, element = null, fromElement = null) {
         try {
             await this.driver.sleep(2000)
-            await this.driver.wait(
-                until.elementIsVisible(
-                    this.driver.findElement(By[locatorType](locatorValue))), 5000);
             if (!element) {
+                await this.driver.wait(
+                    until.elementIsVisible(
+                        this.driver.findElement(By[locatorType](locatorValue))), 5000);
                 if (fromElement) {
                     element = await fromElement.findElement(
                         By[locatorType](locatorValue)
@@ -95,6 +98,8 @@ class SeleniumInfra {
                         By[locatorType](locatorValue)
                     );
                 }
+            } else {
+                await this.driver.wait(until.elementIsVisible(element, 5000))
             }
             console.log(
                 `success on finding element with ${locatorType} and value ${locatorValue}`
@@ -109,10 +114,10 @@ class SeleniumInfra {
     }
     async clearElementField(locatorType, locatorValue, element = null, fromElement = null) {
         try {
-            await this.driver.wait(
-                until.elementIsVisible(
-                    this.driver.findElement(By[locatorType](locatorValue))), 5000);
             if (!element) {
+                await this.driver.wait(
+                    until.elementIsVisible(
+                        this.driver.findElement(By[locatorType](locatorValue))), 5000)
                 if (fromElement) {
                     element = await fromElement.findElement(
                         By[locatorType](locatorValue)
@@ -122,6 +127,8 @@ class SeleniumInfra {
                         By[locatorType](locatorValue)
                     );
                 }
+            } else {
+                await this.driver.wait(until.elementIsVisible(element, 5000))
             }
             await element.clear();
             console.log(
