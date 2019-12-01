@@ -9,7 +9,12 @@ class SeleniumInfra {
     }
     async URLvalidation(pageName) {
         try {
-            console.log(`URL validation: ${await this.driver.wait(until.urlContains(pageName), 8000)}`)
+            console.log(
+                `URL validation: ${await this.driver.wait(
+                    until.urlContains(pageName),
+                    8000
+                )}`
+            );
         } catch (error) {
             console.error(error);
         }
@@ -19,18 +24,30 @@ class SeleniumInfra {
             await this.driver.sleep(2000);
             await this.driver.get(url);
             await this.driver.wait(until.urlIs(url), 5000);
-            await this.driver.manage().window().maximize();
+            await this.driver
+                .manage()
+                .window()
+                .maximize();
             console.log(`The navigation to ${url} was successful`);
         } catch (error) {
             console.error(error);
         }
     }
-    async clickButton(locatorType, locatorValue, element = null, fromElement = null) {
+    async clickButton(
+        locatorType,
+        locatorValue,
+        element = null,
+        fromElement = null
+    ) {
         try {
+            await this.driver.sleep(2000);
             if (!element) {
                 await this.driver.wait(
                     until.elementIsVisible(
-                        this.driver.findElement(By[locatorType](locatorValue))), 5000)
+                        this.driver.findElement(By[locatorType](locatorValue))
+                    ),
+                    5000
+                );
                 if (fromElement) {
                     element = await fromElement.findElement(
                         By[locatorType](locatorValue)
@@ -41,7 +58,7 @@ class SeleniumInfra {
                     );
                 }
             } else {
-                await this.driver.wait(until.elementIsVisible(element, 5000))
+                await this.driver.wait(until.elementIsVisible(element, 5000));
             }
             await element.click();
             console.log(
@@ -53,13 +70,22 @@ class SeleniumInfra {
             );
         }
     }
-    async write(locatorType, locatorValue, data, element = null, fromElement = null) {
+    async write(
+        locatorType,
+        locatorValue,
+        data,
+        element = null,
+        fromElement = null
+    ) {
         try {
             await this.driver.sleep(1000);
             if (!element) {
                 await this.driver.wait(
                     until.elementIsVisible(
-                        this.driver.findElement(By[locatorType](locatorValue))), 5000);
+                        this.driver.findElement(By[locatorType](locatorValue))
+                    ),
+                    5000
+                );
                 if (fromElement) {
                     element = await fromElement.findElement(
                         By[locatorType](locatorValue)
@@ -70,7 +96,7 @@ class SeleniumInfra {
                     );
                 }
             } else {
-                await this.driver.wait(until.elementIsVisible(element, 5000))
+                await this.driver.wait(until.elementIsVisible(element, 5000));
             }
             await element.sendKeys(data);
             console.log(
@@ -82,13 +108,21 @@ class SeleniumInfra {
             );
         }
     }
-    async getTextFromElement(locatorType, locatorValue, element = null, fromElement = null) {
+    async getTextFromElement(
+        locatorType,
+        locatorValue,
+        element = null,
+        fromElement = null
+    ) {
         try {
-            await this.driver.sleep(2000)
+            await this.driver.sleep(2000);
             if (!element) {
                 await this.driver.wait(
                     until.elementIsVisible(
-                        this.driver.findElement(By[locatorType](locatorValue))), 5000);
+                        this.driver.findElement(By[locatorType](locatorValue))
+                    ),
+                    5000
+                );
                 if (fromElement) {
                     element = await fromElement.findElement(
                         By[locatorType](locatorValue)
@@ -99,7 +133,7 @@ class SeleniumInfra {
                     );
                 }
             } else {
-                await this.driver.wait(until.elementIsVisible(element, 5000))
+                await this.driver.wait(until.elementIsVisible(element, 5000));
             }
             console.log(
                 `success on finding element with ${locatorType} and value ${locatorValue}`
@@ -112,12 +146,20 @@ class SeleniumInfra {
             return "";
         }
     }
-    async clearElementField(locatorType, locatorValue, element = null, fromElement = null) {
+    async clearElementField(
+        locatorType,
+        locatorValue,
+        element = null,
+        fromElement = null
+    ) {
         try {
             if (!element) {
                 await this.driver.wait(
                     until.elementIsVisible(
-                        this.driver.findElement(By[locatorType](locatorValue))), 5000)
+                        this.driver.findElement(By[locatorType](locatorValue))
+                    ),
+                    5000
+                );
                 if (fromElement) {
                     element = await fromElement.findElement(
                         By[locatorType](locatorValue)
@@ -128,7 +170,7 @@ class SeleniumInfra {
                     );
                 }
             } else {
-                await this.driver.wait(until.elementIsVisible(element, 5000))
+                await this.driver.wait(until.elementIsVisible(element, 5000));
             }
             await element.clear();
             console.log(
@@ -142,7 +184,7 @@ class SeleniumInfra {
     }
     async isElementExists(locatorType, locatorValue) {
         try {
-            await this.driver.sleep(2000)
+            await this.driver.sleep(2000);
             if (await this.driver.findElement(By[locatorType](locatorValue))) {
                 console.log("The element exists");
                 return true;
@@ -163,6 +205,7 @@ class SeleniumInfra {
     async findElementBy(locatorType, locatorValue, fromElement = null) {
         let element;
         try {
+            await this.driver.sleep(4000);
             if (fromElement) {
                 element = await fromElement.findElement(By[locatorType](locatorValue));
             } else {
@@ -177,8 +220,9 @@ class SeleniumInfra {
         }
     }
     async findElementListBy(locatorType, locatorValue, fromElement = null) {
-        let elementList = [];
+        let elementList;
         try {
+            await this.driver.sleep(4000);
             if (fromElement) {
                 elementList = await fromElement.findElements(
                     By[locatorType](locatorValue)
@@ -193,6 +237,38 @@ class SeleniumInfra {
         } catch {
             console.error(
                 `Got error while trying to find element with ${locatorType} = ${locatorValue}`
+            );
+        }
+    }
+    async scrollToElement(locatorType, locatorValue, element = null, fromElement = null) {
+        try {
+            await this.driver.sleep(2000);
+            if (!element) {
+                await this.driver.wait(
+                    until.elementIsVisible(
+                        this.driver.findElement(By[locatorType](locatorValue))
+                    ),
+                    5000
+                );
+                if (fromElement) {
+                    element = await fromElement.findElement(
+                        By[locatorType](locatorValue)
+                    );
+                } else {
+                    element = await this.driver.findElement(
+                        By[locatorType](locatorValue)
+                    );
+                }
+            } else {
+                await this.driver.wait(until.elementIsVisible(element, 5000));
+            }
+            await this.driver.executeScript("arguments[0].scrollIntoView(true);window.scrollBy(0,-50)", element)
+            console.log(
+                `Scrolled to element with ${locatorType} and value ${locatorValue}`
+            );
+        } catch (error) {
+            console.error(
+                `Got error while trying to scroll to element with ${locatorType} and value ${locatorValue}`
             );
         }
     }

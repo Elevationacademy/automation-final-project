@@ -1,14 +1,13 @@
-const KPICard = require('./KPICards')
-
+const KPICard = require('./KpiCard')
 class KPICardsTable {
 
-    /** KPICardsTable represent the component of KPI cards in Home page.
-     *  To get one card you sould call the list (this.cards) with index.
-     *  Exapmle: this.KPICardTable.cards[0] // Return the first card 
+    /** 
+     * KPICardsTable represents the component of KPI cards in Home page.
+     * To get one card you should call the list (this.cards) with index number.
+     * Exapmle: this.KPICardTable.cards[0] // Returns the first card 
      * 
-     *  Before you start using all the methods you have you initilize 
-     *  all the propeties by using init method
-     *  Example: this.KPICardTable.init()
+     * You have to initialize init() method before you start using all methods.
+     * Example: this.KPICardTable.init()
      */
 
     constructor(selenium) {
@@ -17,55 +16,64 @@ class KPICardsTable {
         this.name
         this.filter
         this.cards = []
-        
     }
 
     // Initialize all the properties of the class
     async init(){
+        await this.selenium.scrollToElement('xpath' , "//span[@class='cell-header-title']")
         const table = await this.selenium.findElementListBy("xpath", "//div[@class='flow-cell box ng-star-inserted']")
         this.kpi = table[0]
-        this.name = await this.selenium.getTextFromElement("className", "cell-header-title", null, this.kpi)
-        this.filter = await this.selenium.getTextFromElement("className", "selected-option", null, this.kpi)
         await this._createCardsList()
     }
 
     // Create list of KPICard objects
     async _createCardsList() {
-        const webCards = await this.selenium.findElementListBy("xpath", "//div[@class='card-item kpi-item small clickable ng-star-inserted']", this.kpi)
-        console.log(webCards)
-        for (let card of webCards) {
-            let cardObject = new KPICard(this.selenium, card)
-            await cardObject.init()
-            this.cards.push(cardObject) 
+        let webCards
+        this.cards = []
+        for(let i = 1 ; i < 4 ; i++){
+            webCards = await this.selenium.findElementListBy("xpath", "//div[@class='card-item kpi-item small clickable ng-star-inserted']", this.kpi)
+            console.log(`Try ${i}/3 to find card elements `)
+            if(webCards.length > 0){
+                for (let card of webCards) {
+                     this.cards.push(new KPICard(this.selenium, card)) 
+                }
+                await this.selenium.driver.sleep(1000)
+                break
+            }
         }
+        console.log(webCards)
     }
-    /*getName() function return the title of the KPI's table */
-    get Name() {
+    /*getName() function returns the title of the KPI's table */
+    async getName() {
+        this.name = await this.selenium.getTextFromElement("className", "cell-header-title", null, this.kpi)
         return this.name
     }
 
-    /* getFilter() Function return the current filter of the KPI's table */
-    get Filter() {
+    /* getFilter() Function returns the current filter of the KPI's table */
+    async getFilter() {
+        this.filter = await this.selenium.getTextFromElement("className", "selected-option", null, this.kpi)
         return this.filter
     }
 
-    /* setFilter() Function get wanted filter, change it and validate changes */
+    /* setFilter() Function gets wanted filter, changes it and validate changes */
      async setFilter(filter) {
         try {
             await this.selenium.clickButton("className", "selected-option", null, this.kpi)
             await this.selenium.clickButton('xpath' , `//div[contains(text(),'${filter}')]`, null, this.kpi)
 
             /* Validate that filter has changed */
-            if(filter == this.filter){
+            if(filter == await this.getFilter()){
                 console.log(`Filter has changed to '${filter}'`)
+                await this._createCardsList()
             }else{
-                console.log("There is problam to change the filter!")
+                console.log(`There is a problem to change the filter to '${filter}'`)
             }
         } catch (error) {
             console.error(error)
         }
     }
 
+    // Returns number of card elements
     async count() {
         return this.cards.length
     }

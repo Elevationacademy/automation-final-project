@@ -1,7 +1,7 @@
 const HomePage = require("./HomePage");
 const BasePage = require("./BasePage");
 
-class Test {
+class KPITest {
     constructor() {
         this.testSelenium = new BasePage().selenium;
         this.homePage = new HomePage(this.testSelenium, "Bootuser01", "Boot1234");
@@ -21,32 +21,25 @@ class Test {
         //*********** KPICardsTable ****** */
         await this.testSelenium.driver.sleep(5000)
         await kpi.init()
-        console.log(await kpi.Name)
-        console.log(await kpi.Filter)
+        console.log(await kpi.getName())
+        console.log(await kpi.getFilter())
         await kpi.setFilter('Last Month')
         console.log(await kpi.count())
 
-
         // //*********** KPICard *****/
-        console.log(await kpi.cards[5].Name)
-        console.log(await kpi.cards[5].Description)
-        console.log(await kpi.cards[5].Points)
-        await kpi.cards[5].click()
+        console.log(await kpi.cards[0].getName())
+        console.log(await kpi.cards[0].getDescription())
+        console.log(await kpi.cards[0].getPoints())
+        await kpi.cards[0].click()
 
         // //***********KPIDrillPopup ************ */
-        // await this.testSelenium.driver.sleep(5000)
-        console.log(await kpi.cards[5].popup.Name)
-        console.log(await kpi.cards[5].popup.LastUpdate)
-        console.log(await kpi.cards[5].popup.MyScore)
-        // await this.testSelenium.driver.sleep(5000)
-        await kpi.cards[5].popup.clickTimeFrame('Daily')
-        await this.testSelenium.driver.sleep(5000)
-        await kpi.cards[5].popup.trendNscore('Score')
-        await this.testSelenium.driver.sleep(5000)
-        await kpi.cards[5].popup.close()
-        await this.testSelenium.driver.sleep(5000)
-
+        console.log(await kpi.cards[0].popup.getName())
+        console.log(await kpi.cards[0].popup.getLastUpdate())
+        console.log(await kpi.cards[0].popup.getMyScore())
+        await kpi.cards[0].popup.clickTimeFrame('Daily')
+        await kpi.cards[0].popup.trendNscore('Score')
+        await kpi.cards[0].popup.close()
     }
 }
-let test = new Test();
+let test = new KPITest();
 test.main()

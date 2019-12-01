@@ -1,4 +1,9 @@
 class KPIDrillPopup {
+
+    /** 
+    * KPIDrillPopup represents the SINGLE KPI card's pop up.
+    */
+    
     constructor(selenium) {
         this.selenium = selenium;
         this.name
@@ -6,39 +11,42 @@ class KPIDrillPopup {
         this.myScore
     }
 
-    async init() {
-        this.myScore = await this.selenium.getTextFromElement("className", "flag-value")
-        let text = await this.selenium.getTextFromElement("xpath", "//div[@class='title ng-star-inserted']")
-        let t = text.split('\n')
-        this.name = t[0]
-        this.lastUpdate = t[1]   
-    }
-
-    get Name() {
+    // gets the title of the card name.
+    async getName() {
+        let text = (await this.selenium.getTextFromElement("className", "title ng-star-inserted")).split('\n')
+        this.name = text[0]
         return this.name
     }
 
-    get LastUpdate() {
+    // gets the last update (date&time) of the card name.
+    async getLastUpdate() {
+        let lastUpdate = await this.selenium.getTextFromElement("className", "last-updated")
+        this.lastUpdate = lastUpdate
         return this.lastUpdate
     }
 
     // gets the user's score. 
-    get MyScore() { 
+    async getMyScore() {
+        let myScore = await this.selenium.getTextFromElement("className", "flag-value")
+        this.myScore = myScore
         return this.myScore
     }
 
+    // Return current time frame
+    async currentTimeFrame(){
+        let current = await this.selenium.getTextFromElement('xpath', "//div[@class='kpi-timeframe ng-star-inserted timeframe-selected']")
+        return current
+    }
+
     //this function clicks on a string Time Frame. It should get 'daily', 'weekly', or 'monthly'
-    async clickTimeFrame(selectTimeFrame) {   
+    async clickTimeFrame(selectTimeFrame) {
         try {
-            let timeFrame = await this.selenium.findElementListBy("className", "kpi-timeframe ng-star-inserted")
-            for (let time of timeFrame) {
-                let frame = await this.selenium.getTextFromElement(null, null, time)
-                if (frame == selectTimeFrame) {
-                    await this.selenium.clickButton(null, null, time)
-                    return
-                }
+            await this.selenium.clickButton('xpath', `//div[contains(text(),'${selectTimeFrame}')]`)
+            if(selectTimeFrame == await this.currentTimeFrame()){
+                console.log(`You're now under ${selectTimeFrame}`)
+            }else{
+                console.log(`Cannot click on ${selectTimeFrame} button`)
             }
-            console.log(frame)
         }
         catch (error) {
             console.error("Problem with clickTimeFrame function " + error)
@@ -46,20 +54,25 @@ class KPIDrillPopup {
         }
     }
 
+    // Returns either Trend or Score 
+    async isTrendScore(){
+        let option = await this.selenium.getTextFromElement('className', 'tab selected selectable')
+        return option
+    }
+
     //this function clicks on Trend or Score and should get "Trend" / "Score"
-    async trendNscore(trendOrScore) { 
+    async trendNscore(trendOrScore) {
         try {
-            let btn = await this.selenium.findElementListBy('className', 'kpi-drill-tabs ng-star-inserted')
-            console.log(btn)
-            if (trendOrScore == "Score"){
-                return await this.selenium.clickButton(null, null, btn[1])
+            await this.selenium.clickButton('xpath' , `//div[contains(text(),'${trendOrScore}')]`)
+            if(trendOrScore == await this.isTrendScore()){
+                console.log(`You're now under ${trendOrScore}`)
             }
-            if (trendOrScore == "Trend"){
-                return await this.selenium.clickButton(null, null, btn[0])
+            else{
+                console.log(`Cannot click on ${trendOrScore} button`)
             }
         }
         catch (error) {
-            console.error("Problem with clickTrendsOrScore function " + error)
+            console.error("Problem with trendNscore function " + error)
         }
     }
 
