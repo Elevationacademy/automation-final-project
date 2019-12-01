@@ -41,11 +41,16 @@ class KPIDrillPopup {
     //this function clicks on a string Time Frame. It should get 'daily', 'weekly', or 'monthly'
     async clickTimeFrame(selectTimeFrame) {
         try {
-            await this.selenium.clickButton('xpath', `//div[contains(text(),'${selectTimeFrame}')]`)
-            if(selectTimeFrame == await this.currentTimeFrame()){
-                console.log(`You're now under ${selectTimeFrame}`)
-            }else{
-                console.log(`Cannot click on ${selectTimeFrame} button`)
+            for(let i = 1 ; i < 4; i ++){
+                console.log(`Try ${i}/3 to click ${selectTimeFrame} `)
+                await this.selenium.clickButton('xpath', `//div[contains(text(),'${selectTimeFrame}')]`)
+                if(selectTimeFrame == await this.currentTimeFrame()){
+                    console.log(`You're now under ${selectTimeFrame}`)
+                    break
+                }else{
+                    console.log(`Cannot click on ${selectTimeFrame} button`)
+                }
+                await this.selenium.driver.sleep(500)
             }
         }
         catch (error) {
@@ -63,12 +68,16 @@ class KPIDrillPopup {
     //this function clicks on Trend or Score and should get "Trend" / "Score"
     async trendNscore(trendOrScore) {
         try {
-            await this.selenium.clickButton('xpath' , `//div[contains(text(),'${trendOrScore}')]`)
-            if(trendOrScore == await this.isTrendScore()){
-                console.log(`You're now under ${trendOrScore}`)
-            }
-            else{
-                console.log(`Cannot click on ${trendOrScore} button`)
+            for(let i = 1 ; i < 4; i ++){
+                console.log(`Try ${i}/3 to click ${trendOrScore} `)
+                await this.selenium.clickButton('xpath' , `//div[contains(text(),'${trendOrScore}')]`)
+                if(trendOrScore == await this.isTrendScore()){
+                    console.log(`You're now under ${trendOrScore}`)
+                    break
+                }else{
+                    console.log(`Cannot click on ${trendOrScore} button`)
+                }
+                await this.selenium.driver.sleep(500)
             }
         }
         catch (error) {

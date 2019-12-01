@@ -37,9 +37,9 @@ class KPICardsTable {
                 for (let card of webCards) {
                      this.cards.push(new KPICard(this.selenium, card)) 
                 }
-                await this.selenium.driver.sleep(1000)
                 break
             }
+            await this.selenium.driver.sleep(500)
         }
         console.log(webCards)
     }
