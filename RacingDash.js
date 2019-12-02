@@ -19,11 +19,11 @@ class RacingDash {
 
      // get the text of selected button by color
     async getRaceType() {
-        while (!(await this.selenium.isElementExists('xpath','//*[@class="race-type-button selected first-button ng-star-inserted"]'))){
+        while (!(await this.selenium.isElementExists('xpath','//*[contains(@class,"race-type-button") and contains(@class, "first-button")]'))){
             continue
         }
-        let raceTypeBtn1 = await this.selenium.findElementBy('xpath','//*[@class="race-type-button selected first-button ng-star-inserted"]')
-        let raceTypeBtn2 = await this.selenium.findElementBy('xpath','//*[@class="race-type-button last-button ng-star-inserted"]')
+        let raceTypeBtn1 = await this.selenium.findElementBy('xpath','//*[contains(@class,"race-type-button") and contains(@class, "first-button")]')
+        let raceTypeBtn2 = await this.selenium.findElementBy('xpath','//*[contains(@class,"race-type-button") and contains(@class, "last-button")]')
         let color1 = await raceTypeBtn1.getCssValue("background-color")
         let color2 = await raceTypeBtn2.getCssValue("background-color")
         let btn1Text = await raceTypeBtn1.getAttribute("innerText")
@@ -40,6 +40,16 @@ class RacingDash {
         console.log(`second color :${color2}`)
         return this.selectedType
         
+    }
+
+    async clickTeamRace(){
+        while (!(await this.selenium.isElementExists('xpath','//*[contains(@class,"race-type-button") and contains(@class, "last-button")]'))){
+            continue
+        }
+        // await this.selenium.clickButton('xpath','//*[contains(@class,"race-type-button") and contains(@class, "last-button")]')
+        let element=await this.selenium.findElementBy('xpath','//*[contains(@class,"race-type-button") and contains(@class, "last-button")]')
+        // console.log(await element)
+        await this.selenium.clickButton(null,null,element)
     }
 
 }
