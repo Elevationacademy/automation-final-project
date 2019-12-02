@@ -115,7 +115,7 @@ class SeleniumInfra {
         fromElement = null
     ) {
         try {
-            await this.driver.sleep(2000);
+            await this.driver.sleep(6000);
             if (!element) {
                 await this.driver.wait(
                     until.elementIsVisible(
@@ -207,8 +207,10 @@ class SeleniumInfra {
         try {
             await this.driver.sleep(4000);
             if (fromElement) {
+                await this.driver.wait(until.elementLocated(By[locatorType](locatorValue)), 8000)
                 element = await fromElement.findElement(By[locatorType](locatorValue));
             } else {
+                await this.driver.wait(until.elementLocated(By[locatorType](locatorValue)), 8000)
                 element = await this.driver.findElement(By[locatorType](locatorValue));
             }
             console.log(`Find element with ${locatorType} = ${locatorValue} `);
@@ -225,10 +227,12 @@ class SeleniumInfra {
         try {
             await this.driver.sleep(4000);
             if (fromElement) {
+                await this.driver.wait(until.elementsLocated(By[locatorType](locatorValue)), 8000)
                 elementList = await fromElement.findElements(
                     By[locatorType](locatorValue)
                 );
             } else {
+                await this.driver.wait(until.elementsLocated(By[locatorType](locatorValue)), 8000)
                 elementList = await this.driver.findElements(
                     By[locatorType](locatorValue)
                 );
@@ -244,10 +248,10 @@ class SeleniumInfra {
     }
     async scrollToElement(element) {
         try {
-            await this.driver.executeScript("arguments[0].scrollIntoView(true);window.scrollBy(0,-50)", element)
+            await this.driver.executeScript("arguments[0].scrollIntoView(true);window.scrollBy(0,-50)", element);
         } catch (error) {
             console.error(
-                `Got error while trying to scroll to element with ${locatorType} and value ${locatorValue}`
+                `Got error while trying to scroll to element`
             );
         }
     }
