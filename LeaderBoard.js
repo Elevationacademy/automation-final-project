@@ -1,5 +1,5 @@
 class LeaderBoard {
-
+    
     constructor(selenium) {
         this.selenium = selenium
         this.rank = null
