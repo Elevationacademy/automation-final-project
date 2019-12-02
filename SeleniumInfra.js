@@ -212,6 +212,7 @@ class SeleniumInfra {
                 element = await this.driver.findElement(By[locatorType](locatorValue));
             }
             console.log(`Find element with ${locatorType} = ${locatorValue} `);
+            await this.scrollToElement(element);
             return element;
         } catch {
             console.error(
@@ -233,6 +234,7 @@ class SeleniumInfra {
                 );
             }
             console.log(`Find element with ${locatorType} = ${locatorValue} `);
+            await this.scrollToElement(elementList);
             return elementList;
         } catch {
             console.error(
@@ -240,32 +242,9 @@ class SeleniumInfra {
             );
         }
     }
-    async scrollToElement(locatorType, locatorValue, element = null, fromElement = null) {
+    async scrollToElement(element) {
         try {
-            await this.driver.sleep(2000);
-            if (!element) {
-                await this.driver.wait(
-                    until.elementIsVisible(
-                        this.driver.findElement(By[locatorType](locatorValue))
-                    ),
-                    5000
-                );
-                if (fromElement) {
-                    element = await fromElement.findElement(
-                        By[locatorType](locatorValue)
-                    );
-                } else {
-                    element = await this.driver.findElement(
-                        By[locatorType](locatorValue)
-                    );
-                }
-            } else {
-                await this.driver.wait(until.elementIsVisible(element, 5000));
-            }
             await this.driver.executeScript("arguments[0].scrollIntoView(true);window.scrollBy(0,-50)", element)
-            console.log(
-                `Scrolled to element with ${locatorType} and value ${locatorValue}`
-            );
         } catch (error) {
             console.error(
                 `Got error while trying to scroll to element with ${locatorType} and value ${locatorValue}`
