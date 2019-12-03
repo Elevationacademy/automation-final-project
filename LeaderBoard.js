@@ -15,10 +15,12 @@ class LeaderBoard {
         this.rank = textRank + textFromRank
         return this.rank
     }
-    async click() {
+    
+    async clickComponent() {
 
         await this.selenium.clickButton('className', 'leaderboard-widget widget ng-star-inserted')
-        await this.selenium.URLvalidation('leaderboard')
+       let flag= await this.selenium.URLvalidation('leaderboard')
+        return flag 
     }
-}
+}   
 module.exports = LeaderBoard
