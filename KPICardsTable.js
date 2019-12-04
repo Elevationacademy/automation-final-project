@@ -20,7 +20,7 @@ class KPICardsTable {
 
     // Initialize all the properties of the class
     async init(){
-        await this.selenium.scrollToElement('xpath' , "//span[@class='cell-header-title']")
+        // await this.selenium.scrollToElement('xpath' , "//span[@class='cell-header-title']")
         const table = await this.selenium.findElementListBy("xpath", "//div[@class='flow-cell box ng-star-inserted']")
         this.kpi = table[0]
         await this._createCardsList()
@@ -37,11 +37,11 @@ class KPICardsTable {
                 for (let card of webCards) {
                      this.cards.push(new KPICard(this.selenium, card)) 
                 }
+                await this.selenium.driver.sleep(1000)
                 break
             }
-            await this.selenium.driver.sleep(500)
         }
-        console.log(webCards)
+       // console.log(webCards)
     }
     /*getName() function returns the title of the KPI's table */
     async getName() {
@@ -60,7 +60,7 @@ class KPICardsTable {
         try {
             await this.selenium.clickButton("className", "selected-option", null, this.kpi)
             await this.selenium.clickButton('xpath' , `//div[contains(text(),'${filter}')]`, null, this.kpi)
-
+            await this.selenium.driver.sleep(1000)
             /* Validate that filter has changed */
             if(filter == await this.getFilter()){
                 console.log(`Filter has changed to '${filter}'`)

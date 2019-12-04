@@ -1,15 +1,22 @@
 {
-  "name": "final-project",
+  "name": "ness_project",
   "version": "1.0.0",
   "description": "",
-  "main": "BasePage.js",
+  "main": "SeleniumInfra.js",
+  "directories": {
+    "doc": "docs"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha --recursive --timeout 100000"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "chromedriver": "^78.0.1",
     "selenium-webdriver": "^4.0.0-alpha.5"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^6.2.2"
   }
 }
