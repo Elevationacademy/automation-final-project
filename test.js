@@ -1,6 +1,6 @@
 const BasePage = require("./basePage")
 const HomePage = require("./HomePage");
-const LeaderBoard = require("./leaderBoardClass")
+const LeaderBoard = require("./classLeaderBoard")
 
 class LeaderBoardTest {
     constructor() {
@@ -15,19 +15,36 @@ class LeaderBoardTest {
         await this.homePage.login.navigateToLoginPage()
         await this.homePage.login.login()
         await this.leaderBoard.navigate()
+        await this.leaderBoard.myInfo()
+        setTimeout(async () => {
+        await this.leaderBoard.meArr[0].getMyName()
+        await this.leaderBoard.meArr[0].getMyTeam()
+        await this.leaderBoard.meArr[0].getMyLevel()
+        await this.leaderBoard.meArr[0].getMyScore()
+        }, 18000);
         await this.leaderBoard.usersInfo()
         setTimeout(async () => {
 
-        await this.leaderBoard.allUsersArr[0].getRank()
-        await this.leaderBoard.allUsersArr[0].getName()
-        await this.leaderBoard.allUsersArr[0].getTeam()
-        await this.leaderBoard.allUsersArr[0].getLevel()
-        await this.leaderBoard.allUsersArr[0].getScore()
+            await this.leaderBoard.allUsersArr[3].getAllDetails()
+            await this.leaderBoard.allUsersArr[3].getName()
+            await this.leaderBoard.allUsersArr[3].getTeam()
+            await this.leaderBoard.allUsersArr[3].getLevel()
+            await this.leaderBoard.allUsersArr[3].getScore()
+            await this.leaderBoard.allUsersArr[3].clickUser()
 
-        }, 15000)
+        }, 15000);
+
+
+
+
+
+
+
 
     }
 }
 
-let leaderBoard = new LeaderBoardTest()
-leaderBoard.infoUserTest()
+let x = new LeaderBoardTest()
+x.infoUserTest()
+
+
