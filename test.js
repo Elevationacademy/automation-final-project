@@ -17,6 +17,7 @@ class LeaderBoardTest {
         await this.leaderBoard.navigate()
         await this.leaderBoard.myInfo()
         setTimeout(async () => {
+            await this.leaderBoard.meArr[0].getAllMyDetails()
         await this.leaderBoard.meArr[0].getMyName()
         await this.leaderBoard.meArr[0].getMyTeam()
         await this.leaderBoard.meArr[0].getMyLevel()

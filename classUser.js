@@ -3,12 +3,12 @@ class User {
         this.selenium = selenium;
         this.webelement = webelement;
     }
-    
+
     async getAllDetails() {
         setTimeout(async () => {
             await this.selenium.isElementExists('xpath', '//div[@class="leaderboard-item has-drill-down ng-star-inserted"]')
             let user = await this.selenium.getTextFromElement('xpath', '//div[@class="leaderboard-item has-drill-down ng-star-inserted"]', null, this.webelement)
-            console.log(user)
+            console.log("All details are: " + user)
         }, 10000);
     }
 
@@ -68,7 +68,6 @@ class User {
 
     async getMyTeam() {
         setTimeout(async () => {
-            // await this.selenium.isElementExists('xpath', '//div[@style="color: rgb(0, 76, 137);"]')
             const team = await this.selenium.getTextFromElement('xpath', '//div[@style="color: rgb(0, 76, 137);"]//div[@class="content-item column-value-center ng-star-inserted"]')
             console.log("My team is " + team)
 
@@ -93,6 +92,16 @@ class User {
         }, 10000);
 
     }
+
+
+    async getAllMyDetails() {
+        setTimeout(async () => {
+            let myDetals = await this.selenium.getTextFromElement('xpath', '//div[@style="color: rgb(0, 76, 137);"]')
+            console.log("My details are: " + myDetals)
+        }, 10000);
+    }
+
+
 
 
 

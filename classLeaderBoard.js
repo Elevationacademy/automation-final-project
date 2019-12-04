@@ -6,7 +6,6 @@ class LeaderBoard {
         this.logger = logger;
         this.allUsersArr = [];
         this.meArr = [];
-        this.ranks = [];
     }
 
 
@@ -22,7 +21,6 @@ class LeaderBoard {
         setTimeout(async () => {
             const users = await this.selenium.findElementListBy('xpath', `//div[@class="leaderboard-item has-drill-down ng-star-inserted"]`)
             for (let userElm of users) {
-
                 this.allUsersArr.push(new usser(this.selenium, userElm));
             }
             return (this.allUsersArr)
@@ -36,7 +34,7 @@ class LeaderBoard {
             let elem = await this.selenium.findElementListBy('className', 'leaderboard-item highlight fast-scroll-item has-drill-down ng-star-inserted')
             this.meArr.push(new usser(this.selenium, elem))
             return (this.meArr)
-            // console.log ("my details are: " + elem)
+
         }, 10000);
 
     }
