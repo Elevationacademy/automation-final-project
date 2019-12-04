@@ -6,7 +6,7 @@ class LeaderBoardTest {
     constructor() {
         this.selenium = new BASE().selenium
         this.homePage = new HOME(this.selenium, "Bootuser01", "Boot1234")
-        this.leaderBoard = new LeaderBoard();
+        this.leaderBoard = new LeaderBoard(this.selenium);
     }
     async login() {
 
