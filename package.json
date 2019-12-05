@@ -4,12 +4,16 @@
   "description": "",
   "main": "BasePage.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha --recursive --timeout 100000"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "allure-mocha": "^2.0.0-beta.6",
+    "chai": "^4.2.0",
     "chromedriver": "^78.0.1",
+    "fs": "0.0.1-security",
+    "mocha": "^6.2.2",
     "selenium-webdriver": "^4.0.0-alpha.5"
   }
 }

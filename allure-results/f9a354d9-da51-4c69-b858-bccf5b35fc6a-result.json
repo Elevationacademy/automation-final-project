@@ -1,0 +1,1 @@
+{"uuid":"f9a354d9-da51-4c69-b858-bccf5b35fc6a","historyId":"d467db2c9bf767e78c02739537b3c3f6","status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"labels":[{"name":"parentSuite","value":"myMissions "}],"links":[],"start":1575447384590,"name":"should build missions array","fullName":"should build missions array","stop":1575447388505}

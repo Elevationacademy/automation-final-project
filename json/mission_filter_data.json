@@ -1,0 +1,12 @@
+{
+  "filter": [
+    { "mission": false },
+    { "mini": true },
+    { "allTimesStart": false },
+    { "allTimesEnd": true },
+    { "all": true },
+    { "done": true },
+    { "open": false },
+    { "quiz": true }
+  ]
+}
